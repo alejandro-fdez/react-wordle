@@ -1,6 +1,6 @@
-import { MAX_WORD_LENGTH } from '../../constants/settings'
+import { MAX_WORD_LENGTH } from '@constants/en/settings'
 import { Cell } from './Cell'
-import { unicodeSplit } from '../../lib/words'
+import { unicodeSplit } from '@lib/words'
 
 type Props = {
   guess: string

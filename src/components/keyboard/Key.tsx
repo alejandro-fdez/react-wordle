@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import classnames from 'classnames'
-import { CharStatus } from '../../lib/statuses'
-import { MAX_WORD_LENGTH, REVEAL_TIME_MS } from '../../constants/settings'
-import { getStoredIsHighContrastMode } from '../../lib/localStorage'
+import { MAX_WORD_LENGTH, REVEAL_TIME_MS } from '@constants/en/settings'
+import { CharStatus } from '@lib/statuses'
+import { getStoredIsHighContrastMode } from '@lib/localStorage'
 
 type Props = {
   children?: ReactNode

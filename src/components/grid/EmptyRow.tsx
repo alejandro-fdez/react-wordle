@@ -1,4 +1,4 @@
-import { MAX_WORD_LENGTH } from '../../constants/settings'
+import { MAX_WORD_LENGTH } from '@constants/en/settings'
 import { Cell } from './Cell'
 
 export const EmptyRow = () => {

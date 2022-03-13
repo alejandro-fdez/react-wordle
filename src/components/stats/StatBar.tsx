@@ -1,10 +1,10 @@
-import { GameStats } from '../../lib/localStorage'
+import { GameStats } from '@lib/localStorage'
 import {
   TOTAL_TRIES_TEXT,
   SUCCESS_RATE_TEXT,
   CURRENT_STREAK_TEXT,
   BEST_STREAK_TEXT,
-} from '../../constants/strings'
+} from '@constants/en/strings'
 
 type Props = {
   gameStats: GameStats
