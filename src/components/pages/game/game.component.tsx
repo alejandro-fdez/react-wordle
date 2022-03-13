@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react'
-import {
-  WIN_MESSAGES,
-  GAME_COPIED_MESSAGE,
-  NOT_ENOUGH_LETTERS_MESSAGE,
-  WORD_NOT_FOUND_MESSAGE,
-  CORRECT_WORD_MESSAGE,
-  HARD_MODE_ALERT_MESSAGE,
-} from '@constants/en/strings'
+import { useTranslation } from 'next-i18next'
+
+import { STRINGS_NS } from '@core/i18n/namespaces'
 
 import {
   MAX_WORD_LENGTH,
@@ -14,7 +9,7 @@ import {
   REVEAL_TIME_MS,
   GAME_LOST_INFO_DELAY,
   WELCOME_INFO_MODAL_MS,
-} from '@/constants/en/settings'
+} from '@constants/en/settings'
 
 import {
   isWordInWordList,
@@ -45,7 +40,9 @@ interface GameProps {
   language?: string
 }
 
-const Game = ({ language }: GameProps) => {
+const Game = ({ language }: GameProps): JSX.Element => {
+  const { t } = useTranslation(STRINGS_NS)
+
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
   ).matches
@@ -81,7 +78,7 @@ const Game = ({ language }: GameProps) => {
     }
     if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
       setIsGameLost(true)
-      showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
+      showErrorAlert(t('CORRECT_WORD_MESSAGE', { solution: solution }), {
         persist: true,
       })
     }
@@ -130,7 +127,7 @@ const Game = ({ language }: GameProps) => {
       setIsHardMode(isHard)
       localStorage.setItem('gameMode', isHard ? 'hard' : 'normal')
     } else {
-      showErrorAlert(HARD_MODE_ALERT_MESSAGE)
+      showErrorAlert(t('HARD_MODE_ALERT_MESSAGE'))
     }
   }
 
@@ -149,8 +146,9 @@ const Game = ({ language }: GameProps) => {
 
   useEffect(() => {
     if (isGameWon) {
+      const tWinMessages = t('WIN_MESSAGES')
       const winMessage =
-        WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
+        tWinMessages[Math.floor(Math.random() * tWinMessages.length)]
       const delayMs = REVEAL_TIME_MS * MAX_WORD_LENGTH
 
       showSuccessAlert(winMessage, {
@@ -189,14 +187,14 @@ const Game = ({ language }: GameProps) => {
 
     if (!(unicodeLength(currentGuess) === MAX_WORD_LENGTH)) {
       setCurrentRowClass('jiggle')
-      return showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE, {
+      return showErrorAlert(t('NOT_ENOUGH_LETTERS_MESSAGE'), {
         onClose: clearCurrentRowClass,
       })
     }
 
     if (!isWordInWordList(currentGuess)) {
       setCurrentRowClass('jiggle')
-      return showErrorAlert(WORD_NOT_FOUND_MESSAGE, {
+      return showErrorAlert(t('WORD_NOT_FOUND_MESSAGE'), {
         onClose: clearCurrentRowClass,
       })
     }
@@ -237,7 +235,7 @@ const Game = ({ language }: GameProps) => {
       if (guesses.length === MAX_CHALLENGES - 1) {
         setStats(addStatsForCompletedGame(stats, guesses.length + 1))
         setIsGameLost(true)
-        showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
+        showErrorAlert(t('CORRECT_WORD_MESSAGE', { solution: solution }), {
           persist: true,
           delayMs: REVEAL_TIME_MS * MAX_WORD_LENGTH + 1,
         })
@@ -279,7 +277,9 @@ const Game = ({ language }: GameProps) => {
           gameStats={stats}
           isGameLost={isGameLost}
           isGameWon={isGameWon}
-          handleShareToClipboard={() => showSuccessAlert(GAME_COPIED_MESSAGE)}
+          handleShareToClipboard={() =>
+            showSuccessAlert(t('GAME_COPIED_MESSAGE'))
+          }
           isHardMode={isHardMode}
           isDarkMode={isDarkMode}
           isHighContrastMode={isHighContrastMode}

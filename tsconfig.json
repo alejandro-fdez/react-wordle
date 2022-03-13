@@ -17,7 +17,7 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["src"],
+  "include": ["src", "public/locales/en"],
   "extends": "./tsconfig.paths.json",
   "exclude": ["node_modules"]
 }

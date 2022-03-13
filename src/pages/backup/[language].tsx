@@ -1,9 +1,11 @@
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticPropsContext, GetStaticPaths } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { ParsedUrlQuery } from 'querystring'
 
 import { SUPPORTED_LANGUAGES } from '@constants/config'
+import { STRINGS_NS } from '@core/i18n/namespaces'
 
 const DynamicGame = dynamic(
   () => import('@components/pages/game/game.component'),
@@ -35,14 +37,15 @@ interface languageParams extends ParsedUrlQuery {
   language: string
 }
 
-export const getStaticProps: GetStaticProps<GameProps, languageParams> = (
-  context
-) => {
-  const { params } = context
+export async function getStaticProps({
+  locale,
+  params,
+}: GetStaticPropsContext) {
   const { language } = params!
 
   return {
     props: {
+      ...(await serverSideTranslations(locale as string, [STRINGS_NS])),
       language,
     },
   }

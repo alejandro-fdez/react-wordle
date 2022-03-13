@@ -1,0 +1,23 @@
+{
+  "GAME_TITLE": "Wordle en espanol",
+  "WIN_MESSAGES": ["Buen trabajo!", "Increible!", "Bien hecho!"],
+  "GAME_COPIED_MESSAGE": "Partida copiada en el portapapeles",
+  "NOT_ENOUGH_LETTERS_MESSAGE": "No has usado suficientes letras",
+  "WORD_NOT_FOUND_MESSAGE": "No existe la palabra",
+  "HARD_MODE_ALERT_MESSAGE": "Modo dificil solo se puede activar antes de empezar la partida",
+  "HARD_MODE_DESCRIPTION": "Cualquier pista revelada debe usarse en posteriores intentos",
+  "HIGH_CONTRAST_MODE_DESCRIPTION": "Para una version mejorada de color",
+  "CORRECT_WORD_MESSAGE": "La palabra era {{solution}}",
+  "WRONG_SPOT_MESSAGE": "Must use {{guess}} in position {{position}}",
+  "NOT_CONTAINED_MESSAGE": "Guess must contain {{letter}}",
+  "ENTER_TEXT": "Aceptar",
+  "DELETE_TEXT": "Borrar",
+  "STATISTICS_TITLE": "Estadisticas",
+  "GUESS_DISTRIBUTION_TEXT": "Distribucion de intentos",
+  "NEW_WORD_TEXT": "Nueva palabra en",
+  "SHARE_TEXT": "Compartir",
+  "TOTAL_TRIES_TEXT": "No total te intentos",
+  "SUCCESS_RATE_TEXT": "% de acierto",
+  "CURRENT_STREAK_TEXT": "Racha actual",
+  "BEST_STREAK_TEXT": "Mejor racha"
+}
