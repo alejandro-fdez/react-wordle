@@ -1,8 +1,10 @@
 import { getStatuses } from '@lib/statuses'
 import { Key } from './Key'
 import { useEffect } from 'react'
-import { ENTER_TEXT, DELETE_TEXT } from '@constants/en/strings'
 import { localeAwareUpperCase } from '@lib/words'
+
+import { useTranslation } from 'next-i18next'
+import { STRINGS_NS } from '@core/i18n/namespaces'
 
 type Props = {
   onChar: (value: string) => void
@@ -20,6 +22,7 @@ export const Keyboard = ({
   isRevealing,
 }: Props) => {
   const charStatuses = getStatuses(guesses)
+  const { t } = useTranslation(STRINGS_NS)
 
   const onClick = (value: string) => {
     if (value === 'ENTER') {
@@ -77,7 +80,7 @@ export const Keyboard = ({
       </div>
       <div className="flex justify-center">
         <Key width={65.4} value="ENTER" onClick={onClick}>
-          {ENTER_TEXT}
+          {t('ENTER_TEXT')}
         </Key>
         {['Z', 'X', 'C', 'V', 'B', 'N', 'M'].map((key) => (
           <Key
@@ -89,7 +92,7 @@ export const Keyboard = ({
           />
         ))}
         <Key width={65.4} value="DELETE" onClick={onClick}>
-          {DELETE_TEXT}
+          {t('DELETE_TEXT')}
         </Key>
       </div>
     </div>

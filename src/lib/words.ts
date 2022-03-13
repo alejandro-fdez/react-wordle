@@ -1,11 +1,8 @@
 import { WORDS } from '@constants/en/wordlist'
 import { VALID_GUESSES } from '@constants/en/validGuesses'
-import {
-  WRONG_SPOT_MESSAGE,
-  NOT_CONTAINED_MESSAGE,
-} from '@constants/en/strings'
 import { getGuessStatuses } from './statuses'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
+import { TFunction } from 'next-i18next'
 
 export const isWordInWordList = (word: string) => {
   return (
@@ -21,7 +18,11 @@ export const isWinningWord = (word: string) => {
 // build a set of previously revealed letters - present and correct
 // guess must use correct letters in that space and any other revealed letters
 // also check if all revealed instances of a letter are used (i.e. two C's)
-export const findFirstUnusedReveal = (word: string, guesses: string[]) => {
+export const findFirstUnusedReveal = (
+  word: string,
+  guesses: string[],
+  t: TFunction
+) => {
   if (guesses.length === 0) {
     return false
   }
@@ -37,7 +38,10 @@ export const findFirstUnusedReveal = (word: string, guesses: string[]) => {
       lettersLeftArray.push(splitGuess[i])
     }
     if (statuses[i] === 'correct' && splitWord[i] !== splitGuess[i]) {
-      return WRONG_SPOT_MESSAGE(splitGuess[i], i + 1)
+      return t('strings:WRONG_SPOT_MESSAGE', {
+        guess: splitGuess[i],
+        position: i + 1,
+      })
     }
   }
 
@@ -52,7 +56,7 @@ export const findFirstUnusedReveal = (word: string, guesses: string[]) => {
   }
 
   if (lettersLeftArray.length > 0) {
-    return NOT_CONTAINED_MESSAGE(lettersLeftArray[0])
+    return t('strings:NOT_CONTAINED_MESSAGE', { letter: lettersLeftArray[0] })
   }
   return false
 }

@@ -1,8 +1,8 @@
 import { getGuessStatuses } from './statuses'
 import { solutionIndex, unicodeSplit } from './words'
-import { GAME_TITLE } from '@constants/en/strings'
 import { MAX_CHALLENGES } from '@constants/en/settings'
 import { UAParser } from 'ua-parser-js'
+import { TFunction } from 'next-i18next'
 
 const webShareApiDeviceTypes: string[] = ['mobile', 'smarttv', 'wearable']
 const parser = new UAParser()
@@ -15,10 +15,11 @@ export const shareStatus = (
   isHardMode: boolean,
   isDarkMode: boolean,
   isHighContrastMode: boolean,
-  handleShareToClipboard: () => void
+  handleShareToClipboard: () => void,
+  t: TFunction
 ) => {
   const textToShare =
-    `${GAME_TITLE} ${solutionIndex} ${
+    `${t('GAME_TITLE')} ${solutionIndex} ${
       lost ? 'X' : guesses.length
     }/${MAX_CHALLENGES}${isHardMode ? '*' : ''}\n\n` +
     generateEmojiGrid(guesses, getEmojiTiles(isDarkMode, isHighContrastMode))

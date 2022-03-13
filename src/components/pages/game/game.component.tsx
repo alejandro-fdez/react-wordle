@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'next-i18next'
 
-import { STRINGS_NS } from '@core/i18n/namespaces'
+import { ALL_NS } from '@core/i18n/namespaces'
 
 import {
   MAX_WORD_LENGTH,
@@ -41,7 +41,7 @@ interface GameProps {
 }
 
 const Game = ({ language }: GameProps): JSX.Element => {
-  const { t } = useTranslation(STRINGS_NS)
+  const { t } = useTranslation(ALL_NS)
 
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
@@ -78,9 +78,12 @@ const Game = ({ language }: GameProps): JSX.Element => {
     }
     if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
       setIsGameLost(true)
-      showErrorAlert(t('CORRECT_WORD_MESSAGE', { solution: solution }), {
-        persist: true,
-      })
+      showErrorAlert(
+        t('strings:CORRECT_WORD_MESSAGE', { solution: solution }),
+        {
+          persist: true,
+        }
+      )
     }
     return loaded.guesses
   })
@@ -127,7 +130,7 @@ const Game = ({ language }: GameProps): JSX.Element => {
       setIsHardMode(isHard)
       localStorage.setItem('gameMode', isHard ? 'hard' : 'normal')
     } else {
-      showErrorAlert(t('HARD_MODE_ALERT_MESSAGE'))
+      showErrorAlert(t('strings:HARD_MODE_ALERT_MESSAGE'))
     }
   }
 
@@ -146,7 +149,7 @@ const Game = ({ language }: GameProps): JSX.Element => {
 
   useEffect(() => {
     if (isGameWon) {
-      const tWinMessages = t('WIN_MESSAGES')
+      const tWinMessages = t('strings:WIN_MESSAGES').split('|')
       const winMessage =
         tWinMessages[Math.floor(Math.random() * tWinMessages.length)]
       const delayMs = REVEAL_TIME_MS * MAX_WORD_LENGTH
@@ -162,7 +165,7 @@ const Game = ({ language }: GameProps): JSX.Element => {
         setIsStatsModalOpen(true)
       }, GAME_LOST_INFO_DELAY)
     }
-  }, [isGameWon, isGameLost, showSuccessAlert])
+  }, [isGameWon, isGameLost, showSuccessAlert, t])
 
   const onChar = (value: string) => {
     if (
@@ -187,21 +190,21 @@ const Game = ({ language }: GameProps): JSX.Element => {
 
     if (!(unicodeLength(currentGuess) === MAX_WORD_LENGTH)) {
       setCurrentRowClass('jiggle')
-      return showErrorAlert(t('NOT_ENOUGH_LETTERS_MESSAGE'), {
+      return showErrorAlert(t('strings:NOT_ENOUGH_LETTERS_MESSAGE'), {
         onClose: clearCurrentRowClass,
       })
     }
 
     if (!isWordInWordList(currentGuess)) {
       setCurrentRowClass('jiggle')
-      return showErrorAlert(t('WORD_NOT_FOUND_MESSAGE'), {
+      return showErrorAlert(t('strings:WORD_NOT_FOUND_MESSAGE'), {
         onClose: clearCurrentRowClass,
       })
     }
 
     // enforce hard mode - all guesses must contain all previously revealed letters
     if (isHardMode) {
-      const firstMissingReveal = findFirstUnusedReveal(currentGuess, guesses)
+      const firstMissingReveal = findFirstUnusedReveal(currentGuess, guesses, t)
       if (firstMissingReveal) {
         setCurrentRowClass('jiggle')
         return showErrorAlert(firstMissingReveal, {
@@ -235,10 +238,13 @@ const Game = ({ language }: GameProps): JSX.Element => {
       if (guesses.length === MAX_CHALLENGES - 1) {
         setStats(addStatsForCompletedGame(stats, guesses.length + 1))
         setIsGameLost(true)
-        showErrorAlert(t('CORRECT_WORD_MESSAGE', { solution: solution }), {
-          persist: true,
-          delayMs: REVEAL_TIME_MS * MAX_WORD_LENGTH + 1,
-        })
+        showErrorAlert(
+          t('strings:CORRECT_WORD_MESSAGE', { solution: solution }),
+          {
+            persist: true,
+            delayMs: REVEAL_TIME_MS * MAX_WORD_LENGTH + 1,
+          }
+        )
       }
     }
   }
@@ -278,7 +284,7 @@ const Game = ({ language }: GameProps): JSX.Element => {
           isGameLost={isGameLost}
           isGameWon={isGameWon}
           handleShareToClipboard={() =>
-            showSuccessAlert(t('GAME_COPIED_MESSAGE'))
+            showSuccessAlert(t('strings:GAME_COPIED_MESSAGE'))
           }
           isHardMode={isHardMode}
           isDarkMode={isDarkMode}

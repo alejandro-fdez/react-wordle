@@ -1,9 +1,8 @@
 import { BaseModal } from './BaseModal'
 import { SettingsToggle } from './SettingsToggle'
-import {
-  HARD_MODE_DESCRIPTION,
-  HIGH_CONTRAST_MODE_DESCRIPTION,
-} from '@constants/en/strings'
+
+import { useTranslation } from 'next-i18next'
+import { STRINGS_NS } from '@core/i18n/namespaces'
 
 type Props = {
   isOpen: boolean
@@ -26,25 +25,26 @@ export const SettingsModal = ({
   isHighContrastMode,
   handleHighContrastMode,
 }: Props) => {
+  const { t } = useTranslation(STRINGS_NS)
   return (
     <BaseModal title="Settings" isOpen={isOpen} handleClose={handleClose}>
       <div className="flex flex-col mt-2 divide-y">
         <SettingsToggle
-          settingName="Hard Mode"
+          settingName={t('HARD_MODE_TITLE')}
           flag={isHardMode}
           handleFlag={handleHardMode}
-          description={HARD_MODE_DESCRIPTION}
+          description={t('HARD_MODE_DESCRIPTION')}
         />
         <SettingsToggle
-          settingName="Dark Mode"
+          settingName={t('DARK_MODE_TITLE')}
           flag={isDarkMode}
           handleFlag={handleDarkMode}
         />
         <SettingsToggle
-          settingName="High Contrast Mode"
+          settingName={t('HIGH_CONTRAST_MODE_TITLE')}
           flag={isHighContrastMode}
           handleFlag={handleHighContrastMode}
-          description={HIGH_CONTRAST_MODE_DESCRIPTION}
+          description={t('HIGH_CONTRAST_MODE_DESCRIPTION')}
         />
       </div>
     </BaseModal>

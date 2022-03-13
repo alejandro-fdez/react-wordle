@@ -5,12 +5,8 @@ import { GameStats } from '@lib/localStorage'
 import { shareStatus } from '@lib/share'
 import { tomorrow } from '@lib/words'
 import { BaseModal } from './BaseModal'
-import {
-  STATISTICS_TITLE,
-  GUESS_DISTRIBUTION_TEXT,
-  NEW_WORD_TEXT,
-  SHARE_TEXT,
-} from '@constants/en/strings'
+import { useTranslation } from 'next-i18next'
+import { STRINGS_NS } from '@core/i18n/namespaces'
 
 type Props = {
   isOpen: boolean
@@ -39,10 +35,11 @@ export const StatsModal = ({
   isHighContrastMode,
   numberOfGuessesMade,
 }: Props) => {
+  const { t } = useTranslation(STRINGS_NS)
   if (gameStats.totalGames <= 0) {
     return (
       <BaseModal
-        title={STATISTICS_TITLE}
+        title={t('STATISTICS_TITLE')}
         isOpen={isOpen}
         handleClose={handleClose}
       >
@@ -52,13 +49,13 @@ export const StatsModal = ({
   }
   return (
     <BaseModal
-      title={STATISTICS_TITLE}
+      title={t('STATISTICS_TITLE')}
       isOpen={isOpen}
       handleClose={handleClose}
     >
       <StatBar gameStats={gameStats} />
       <h4 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-        {GUESS_DISTRIBUTION_TEXT}
+        {t('GUESS_DISTRIBUTION_TEXT')}
       </h4>
       <Histogram
         gameStats={gameStats}
@@ -67,7 +64,7 @@ export const StatsModal = ({
       {(isGameLost || isGameWon) && (
         <div className="mt-5 sm:mt-6 columns-2 dark:text-white">
           <div>
-            <h5>{NEW_WORD_TEXT}</h5>
+            <h5>{t('NEW_WORD_TEXT')}</h5>
             <Countdown
               className="text-lg font-medium text-gray-900 dark:text-gray-100"
               date={tomorrow}
@@ -84,11 +81,12 @@ export const StatsModal = ({
                 isHardMode,
                 isDarkMode,
                 isHighContrastMode,
-                handleShareToClipboard
+                handleShareToClipboard,
+                t
               )
             }}
           >
-            {SHARE_TEXT}
+            {t('SHARE_TEXT')}
           </button>
         </div>
       )}

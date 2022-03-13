@@ -3,7 +3,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
-import { STRINGS_NS } from '@core/i18n/namespaces'
+import { ALL_NS } from '@core/i18n/namespaces'
 
 const DynamicGame = dynamic(
   () => import('@components/pages/game/game.component'),
@@ -28,7 +28,7 @@ function Main() {
 export async function getStaticProps({ locale }: GetStaticPropsContext) {
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, [STRINGS_NS])),
+      ...(await serverSideTranslations(locale as string, [...ALL_NS])),
     },
   }
 }
