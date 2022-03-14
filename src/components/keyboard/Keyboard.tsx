@@ -1,10 +1,11 @@
 import { getStatuses } from '@lib/statuses'
 import { Key } from './Key'
 import { useEffect } from 'react'
-import { localeAwareUpperCase } from '@lib/words'
+import { getWordOfDay, localeAwareUpperCase } from '@lib/words'
 
 import { useTranslation } from 'next-i18next'
 import { STRINGS_NS } from '@core/i18n/namespaces'
+import { useWordlist } from '@/hooks/useWordList'
 
 type Props = {
   onChar: (value: string) => void
@@ -21,8 +22,10 @@ export const Keyboard = ({
   guesses,
   isRevealing,
 }: Props) => {
-  const charStatuses = getStatuses(guesses)
   const { t } = useTranslation(STRINGS_NS)
+  const { WORDS } = useWordlist()
+  const { solution } = getWordOfDay(WORDS)
+  const charStatuses = getStatuses(guesses, solution)
 
   const onClick = (value: string) => {
     if (value === 'ENTER') {

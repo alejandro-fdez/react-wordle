@@ -4,13 +4,15 @@ import { useTranslation } from 'next-i18next'
 import { ALL_NS } from '@core/i18n/namespaces'
 
 import { useSettings } from '@/hooks/useSettings'
+import { useWordlist } from '@/hooks/useWordList'
+import { useValidGuesses } from '@/hooks/useValidGuesses'
 
 import {
   isWordInWordList,
   isWinningWord,
-  solution,
   findFirstUnusedReveal,
   unicodeLength,
+  getWordOfDay,
 } from '@lib/words'
 import { addStatsForCompletedGame, loadStats } from '@lib/stats'
 import {
@@ -43,6 +45,9 @@ const Game = ({ language }: GameProps): JSX.Element => {
     GAME_LOST_INFO_DELAY,
     WELCOME_INFO_MODAL_MS,
   } = useSettings()
+  const { VALID_GUESSES } = useValidGuesses()
+  const { WORDS } = useWordlist()
+  const { solution } = getWordOfDay(WORDS)
 
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
@@ -196,7 +201,7 @@ const Game = ({ language }: GameProps): JSX.Element => {
       })
     }
 
-    if (!isWordInWordList(currentGuess)) {
+    if (!isWordInWordList(currentGuess, WORDS, VALID_GUESSES)) {
       setCurrentRowClass('jiggle')
       return showErrorAlert(t('strings:WORD_NOT_FOUND_MESSAGE'), {
         onClose: clearCurrentRowClass,
@@ -205,7 +210,12 @@ const Game = ({ language }: GameProps): JSX.Element => {
 
     // enforce hard mode - all guesses must contain all previously revealed letters
     if (isHardMode) {
-      const firstMissingReveal = findFirstUnusedReveal(currentGuess, guesses, t)
+      const firstMissingReveal = findFirstUnusedReveal(
+        currentGuess,
+        guesses,
+        solution,
+        t
+      )
       if (firstMissingReveal) {
         setCurrentRowClass('jiggle')
         return showErrorAlert(firstMissingReveal, {
@@ -221,7 +231,7 @@ const Game = ({ language }: GameProps): JSX.Element => {
       setIsRevealing(false)
     }, REVEAL_TIME_MS * MAX_WORD_LENGTH)
 
-    const winningWord = isWinningWord(currentGuess)
+    const winningWord = isWinningWord(currentGuess, WORDS)
 
     if (
       unicodeLength(currentGuess) === MAX_WORD_LENGTH &&

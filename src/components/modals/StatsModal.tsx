@@ -3,11 +3,12 @@ import { StatBar } from '../stats/StatBar'
 import { Histogram } from '../stats/Histogram'
 import { GameStats } from '@lib/localStorage'
 import { shareStatus } from '@lib/share'
-import { tomorrow } from '@lib/words'
+import { getWordOfDay } from '@lib/words'
 import { BaseModal } from './BaseModal'
 import { useTranslation } from 'next-i18next'
 import { useSettings } from '@/hooks/useSettings'
 import { STRINGS_NS } from '@core/i18n/namespaces'
+import { useWordlist } from '@/hooks/useWordList'
 
 type Props = {
   isOpen: boolean
@@ -38,6 +39,8 @@ export const StatsModal = ({
 }: Props) => {
   const { t } = useTranslation(STRINGS_NS)
   const { MAX_CHALLENGES } = useSettings()
+  const { WORDS } = useWordlist()
+  const { solution, solutionIndex, tomorrow } = getWordOfDay(WORDS)
   if (gameStats.totalGames <= 0) {
     return (
       <BaseModal
@@ -85,6 +88,8 @@ export const StatsModal = ({
                 isHighContrastMode,
                 handleShareToClipboard,
                 MAX_CHALLENGES,
+                solutionIndex,
+                solution,
                 t
               )
             }}

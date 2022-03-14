@@ -1,6 +1,7 @@
 import { getGuessStatuses } from '../../lib/statuses'
 import { Cell } from './Cell'
-import { unicodeSplit } from '../../lib/words'
+import { getWordOfDay, unicodeSplit } from '../../lib/words'
+import { useWordlist } from '@/hooks/useWordList'
 
 type Props = {
   guess: string
@@ -8,7 +9,9 @@ type Props = {
 }
 
 export const CompletedRow = ({ guess, isRevealing }: Props) => {
-  const statuses = getGuessStatuses(guess)
+  const { WORDS } = useWordlist()
+  const { solution } = getWordOfDay(WORDS)
+  const statuses = getGuessStatuses(guess, solution)
   const splitGuess = unicodeSplit(guess)
 
   return (

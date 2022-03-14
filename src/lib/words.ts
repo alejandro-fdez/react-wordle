@@ -1,17 +1,20 @@
-import { WORDS } from '@constants/en/wordlist'
-import { VALID_GUESSES } from '@constants/en/validGuesses'
 import { getGuessStatuses } from './statuses'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 import { TFunction } from 'next-i18next'
 
-export const isWordInWordList = (word: string) => {
+export const isWordInWordList = (
+  word: string,
+  words: string[],
+  validGuesses: string[]
+) => {
   return (
-    WORDS.includes(localeAwareLowerCase(word)) ||
-    VALID_GUESSES.includes(localeAwareLowerCase(word))
+    words.includes(localeAwareLowerCase(word)) ||
+    validGuesses.includes(localeAwareLowerCase(word))
   )
 }
 
-export const isWinningWord = (word: string) => {
+export const isWinningWord = (word: string, words: string[]) => {
+  const { solution } = getWordOfDay(words)
   return solution === word
 }
 
@@ -21,6 +24,7 @@ export const isWinningWord = (word: string) => {
 export const findFirstUnusedReveal = (
   word: string,
   guesses: string[],
+  solution: string,
   t: TFunction
 ) => {
   if (guesses.length === 0) {
@@ -29,7 +33,7 @@ export const findFirstUnusedReveal = (
 
   const lettersLeftArray = new Array<string>()
   const guess = guesses[guesses.length - 1]
-  const statuses = getGuessStatuses(guess)
+  const statuses = getGuessStatuses(guess, solution)
   const splitWord = unicodeSplit(word)
   const splitGuess = unicodeSplit(guess)
 
@@ -81,7 +85,7 @@ export const localeAwareUpperCase = (text: string) => {
     : text.toUpperCase()
 }
 
-export const getWordOfDay = () => {
+export const getWordOfDay = (words: string[]) => {
   // January 1, 2022 Game Epoch
   const epochMs = new Date(2022, 0).valueOf()
   const now = Date.now()
@@ -90,10 +94,8 @@ export const getWordOfDay = () => {
   const nextday = (index + 1) * msInDay + epochMs
 
   return {
-    solution: localeAwareUpperCase(WORDS[index % WORDS.length]),
+    solution: localeAwareUpperCase(words[index % words.length]),
     solutionIndex: index,
     tomorrow: nextday,
   }
 }
-
-export const { solution, solutionIndex, tomorrow } = getWordOfDay()
