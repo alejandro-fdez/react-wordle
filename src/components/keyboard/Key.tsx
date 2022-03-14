@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import classnames from 'classnames'
-import { MAX_WORD_LENGTH, REVEAL_TIME_MS } from '@constants/en/settings'
 import { CharStatus } from '@lib/statuses'
 import { getStoredIsHighContrastMode } from '@lib/localStorage'
+import { useSettings } from '@/hooks/useSettings'
 
 type Props = {
   children?: ReactNode
@@ -21,6 +21,7 @@ export const Key = ({
   onClick,
   isRevealing,
 }: Props) => {
+  const { MAX_WORD_LENGTH, REVEAL_TIME_MS } = useSettings()
   const keyDelayMs = REVEAL_TIME_MS * MAX_WORD_LENGTH
   const isHighContrast = getStoredIsHighContrastMode()
 

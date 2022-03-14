@@ -4,7 +4,6 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { ParsedUrlQuery } from 'querystring'
 
-import { SUPPORTED_LANGUAGES } from '@constants/config'
 import { STRINGS_NS } from '@core/i18n/namespaces'
 
 const DynamicGame = dynamic(
@@ -52,7 +51,8 @@ export async function getStaticProps({
 }
 
 export const getStaticPaths: GetStaticPaths<languageParams> = () => {
-  const paths = SUPPORTED_LANGUAGES.map((languageCode) => ({
+  // @ts-ignore
+  const paths = process.env.SUPPORTED_LANGUAGES.map((languageCode) => ({
     params: {
       language: languageCode as string,
     },

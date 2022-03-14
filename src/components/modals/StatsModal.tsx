@@ -6,6 +6,7 @@ import { shareStatus } from '@lib/share'
 import { tomorrow } from '@lib/words'
 import { BaseModal } from './BaseModal'
 import { useTranslation } from 'next-i18next'
+import { useSettings } from '@/hooks/useSettings'
 import { STRINGS_NS } from '@core/i18n/namespaces'
 
 type Props = {
@@ -36,6 +37,7 @@ export const StatsModal = ({
   numberOfGuessesMade,
 }: Props) => {
   const { t } = useTranslation(STRINGS_NS)
+  const { MAX_CHALLENGES } = useSettings()
   if (gameStats.totalGames <= 0) {
     return (
       <BaseModal
@@ -82,6 +84,7 @@ export const StatsModal = ({
                 isDarkMode,
                 isHighContrastMode,
                 handleShareToClipboard,
+                MAX_CHALLENGES,
                 t
               )
             }}

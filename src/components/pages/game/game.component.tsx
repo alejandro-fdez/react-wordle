@@ -3,13 +3,7 @@ import { useTranslation } from 'next-i18next'
 
 import { ALL_NS } from '@core/i18n/namespaces'
 
-import {
-  MAX_WORD_LENGTH,
-  MAX_CHALLENGES,
-  REVEAL_TIME_MS,
-  GAME_LOST_INFO_DELAY,
-  WELCOME_INFO_MODAL_MS,
-} from '@constants/en/settings'
+import { useSettings } from '@/hooks/useSettings'
 
 import {
   isWordInWordList,
@@ -42,6 +36,13 @@ interface GameProps {
 
 const Game = ({ language }: GameProps): JSX.Element => {
   const { t } = useTranslation(ALL_NS)
+  const {
+    MAX_WORD_LENGTH,
+    MAX_CHALLENGES,
+    REVEAL_TIME_MS,
+    GAME_LOST_INFO_DELAY,
+    WELCOME_INFO_MODAL_MS,
+  } = useSettings()
 
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
@@ -88,7 +89,7 @@ const Game = ({ language }: GameProps): JSX.Element => {
     return loaded.guesses
   })
 
-  const [stats, setStats] = useState(() => loadStats())
+  const [stats, setStats] = useState(() => loadStats(MAX_CHALLENGES))
 
   const [isHardMode, setIsHardMode] = useState(
     localStorage.getItem('gameMode')
@@ -231,12 +232,16 @@ const Game = ({ language }: GameProps): JSX.Element => {
       setCurrentGuess('')
 
       if (winningWord) {
-        setStats(addStatsForCompletedGame(stats, guesses.length))
+        setStats(
+          addStatsForCompletedGame(stats, guesses.length, MAX_CHALLENGES)
+        )
         return setIsGameWon(true)
       }
 
       if (guesses.length === MAX_CHALLENGES - 1) {
-        setStats(addStatsForCompletedGame(stats, guesses.length + 1))
+        setStats(
+          addStatsForCompletedGame(stats, guesses.length + 1, MAX_CHALLENGES)
+        )
         setIsGameLost(true)
         showErrorAlert(
           t('strings:CORRECT_WORD_MESSAGE', { solution: solution }),

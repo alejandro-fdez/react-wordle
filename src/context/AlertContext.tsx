@@ -5,7 +5,7 @@ import {
   useContext,
   useState,
 } from 'react'
-import { ALERT_TIME_MS } from '@constants/en/settings'
+import { useSettings } from '@/hooks/useSettings'
 
 type AlertStatus = 'success' | 'error' | undefined
 
@@ -40,6 +40,7 @@ type Props = {
 }
 
 export const AlertProvider = ({ children }: Props) => {
+  const { ALERT_TIME_MS } = useSettings()
   const [status, setStatus] = useState<AlertStatus>('success')
   const [message, setMessage] = useState<string | null>(null)
   const [isVisible, setIsVisible] = useState(false)

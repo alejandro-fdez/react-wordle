@@ -1,6 +1,5 @@
 import { getGuessStatuses } from './statuses'
 import { solutionIndex, unicodeSplit } from './words'
-import { MAX_CHALLENGES } from '@constants/en/settings'
 import { UAParser } from 'ua-parser-js'
 import { TFunction } from 'next-i18next'
 
@@ -16,12 +15,13 @@ export const shareStatus = (
   isDarkMode: boolean,
   isHighContrastMode: boolean,
   handleShareToClipboard: () => void,
+  maxChallenges: number,
   t: TFunction
 ) => {
   const textToShare =
     `${t('GAME_TITLE')} ${solutionIndex} ${
       lost ? 'X' : guesses.length
-    }/${MAX_CHALLENGES}${isHardMode ? '*' : ''}\n\n` +
+    }/${maxChallenges}${isHardMode ? '*' : ''}\n\n` +
     generateEmojiGrid(guesses, getEmojiTiles(isDarkMode, isHighContrastMode))
 
   const shareData = { text: textToShare }

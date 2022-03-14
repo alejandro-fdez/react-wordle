@@ -1,4 +1,3 @@
-import { MAX_CHALLENGES } from '@constants/en/settings'
 import {
   GameStats,
   loadStatsFromLocalStorage,
@@ -9,14 +8,15 @@ import {
 
 export const addStatsForCompletedGame = (
   gameStats: GameStats,
-  count: number
+  count: number,
+  maxChallenges: number
 ) => {
   // Count is number of incorrect guesses before end.
   const stats = { ...gameStats }
 
   stats.totalGames += 1
 
-  if (count >= MAX_CHALLENGES) {
+  if (count >= maxChallenges) {
     // A fail situation
     stats.currentStreak = 0
     stats.gamesFailed += 1
@@ -35,17 +35,17 @@ export const addStatsForCompletedGame = (
   return stats
 }
 
-const defaultStats: GameStats = {
-  winDistribution: Array.from(new Array(MAX_CHALLENGES), () => 0),
+const defaultStats = (maxChallenges: number): GameStats => ({
+  winDistribution: Array.from(new Array(maxChallenges), () => 0),
   gamesFailed: 0,
   currentStreak: 0,
   bestStreak: 0,
   totalGames: 0,
   successRate: 0,
-}
+})
 
-export const loadStats = () => {
-  return loadStatsFromLocalStorage() || defaultStats
+export const loadStats = (maxChallenges: number) => {
+  return loadStatsFromLocalStorage() || defaultStats(maxChallenges)
 }
 
 const getSuccessRate = (gameStats: GameStats) => {

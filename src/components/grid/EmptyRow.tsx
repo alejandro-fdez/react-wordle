@@ -1,7 +1,8 @@
-import { MAX_WORD_LENGTH } from '@constants/en/settings'
+import { useSettings } from '@/hooks/useSettings'
 import { Cell } from './Cell'
 
 export const EmptyRow = () => {
+  const { MAX_WORD_LENGTH } = useSettings()
   const emptyCells = Array.from(Array(MAX_WORD_LENGTH))
 
   return (

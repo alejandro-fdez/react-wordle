@@ -1,7 +1,7 @@
 import { CharStatus } from '@lib/statuses'
 import classnames from 'classnames'
-import { REVEAL_TIME_MS } from '@constants/en/settings'
 import { getStoredIsHighContrastMode } from '@lib/localStorage'
+import { useSettings } from '@/hooks/useSettings'
 
 type Props = {
   value?: string
@@ -18,6 +18,7 @@ export const Cell = ({
   isCompleted,
   position = 0,
 }: Props) => {
+  const { REVEAL_TIME_MS } = useSettings()
   const isFilled = value && !isCompleted
   const shouldReveal = isRevealing && isCompleted
   const animationDelay = `${position * REVEAL_TIME_MS}ms`

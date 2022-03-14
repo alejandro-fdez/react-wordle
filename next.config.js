@@ -7,6 +7,9 @@ const nextConfig = {
     domains: [],
   },
   i18n,
+  env: {
+    SUPPORTED_LANGUAGES: ['en', 'es'],
+  },
 }
 
 module.exports = nextConfig
