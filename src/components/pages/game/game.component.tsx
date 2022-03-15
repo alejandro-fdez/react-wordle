@@ -6,6 +6,7 @@ import { ALL_NS } from '@core/i18n/namespaces'
 import { useSettings } from '@/hooks/useSettings'
 import { useWordlist } from '@/hooks/useWordList'
 import { useValidGuesses } from '@/hooks/useValidGuesses'
+import { useStats } from '@/hooks/useStats'
 
 import {
   isWordInWordList,
@@ -14,13 +15,6 @@ import {
   unicodeLength,
   getWordOfDay,
 } from '@lib/words'
-import { addStatsForCompletedGame, loadStats } from '@lib/stats'
-import {
-  loadGameStateFromLocalStorage,
-  saveGameStateToLocalStorage,
-  setStoredIsHighContrastMode,
-  getStoredIsHighContrastMode,
-} from '@lib/localStorage'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 
 import { Grid } from '@components/grid/Grid'
@@ -31,6 +25,7 @@ import { SettingsModal } from '@components/modals/SettingsModal'
 import { AlertContainer } from '@components/alerts/AlertContainer'
 import { useAlert } from '@context/AlertContext'
 import { Navbar } from '@components/navbar/Navbar'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 interface GameProps {
   language?: string
@@ -38,6 +33,7 @@ interface GameProps {
 
 const Game = ({ language }: GameProps): JSX.Element => {
   const { t } = useTranslation(ALL_NS)
+  const { addStatsForCompletedGame, loadStats } = useStats()
   const {
     MAX_WORD_LENGTH,
     MAX_CHALLENGES,
@@ -48,6 +44,12 @@ const Game = ({ language }: GameProps): JSX.Element => {
   const { VALID_GUESSES } = useValidGuesses()
   const { WORDS } = useWordlist()
   const { solution } = getWordOfDay(WORDS)
+  const {
+    loadGameStateFromLocalStorage,
+    saveGameStateToLocalStorage,
+    setStoredIsHighContrastMode,
+    getStoredIsHighContrastMode,
+  } = useLocalStorage()
 
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'

@@ -1,4 +1,4 @@
-import { GameStats } from '@lib/localStorage'
+import { GameStats } from '@/hooks/useLocalStorage'
 import { useTranslation } from 'next-i18next'
 import { STRINGS_NS } from '@core/i18n/namespaces'
 

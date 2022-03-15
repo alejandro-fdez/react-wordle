@@ -1,7 +1,7 @@
 import Countdown from 'react-countdown'
 import { StatBar } from '../stats/StatBar'
 import { Histogram } from '../stats/Histogram'
-import { GameStats } from '@lib/localStorage'
+import { GameStats } from '@/hooks/useLocalStorage'
 import { shareStatus } from '@lib/share'
 import { getWordOfDay } from '@lib/words'
 import { BaseModal } from './BaseModal'

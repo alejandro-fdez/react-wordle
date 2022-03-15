@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import classnames from 'classnames'
 import { CharStatus } from '@lib/statuses'
-import { getStoredIsHighContrastMode } from '@lib/localStorage'
 import { useSettings } from '@/hooks/useSettings'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 type Props = {
   children?: ReactNode
@@ -22,6 +22,7 @@ export const Key = ({
   isRevealing,
 }: Props) => {
   const { MAX_WORD_LENGTH, REVEAL_TIME_MS } = useSettings()
+  const { getStoredIsHighContrastMode } = useLocalStorage()
   const keyDelayMs = REVEAL_TIME_MS * MAX_WORD_LENGTH
   const isHighContrast = getStoredIsHighContrastMode()
 
