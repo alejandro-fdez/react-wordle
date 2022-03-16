@@ -5,7 +5,7 @@ import {
   useContext,
   useState,
 } from 'react'
-import { useSettings } from '@/hooks/useSettings'
+import { useGetSettings } from '@/hooks/useGetSettings'
 
 type AlertStatus = 'success' | 'error' | undefined
 
@@ -40,7 +40,7 @@ type Props = {
 }
 
 export const AlertProvider = ({ children }: Props) => {
-  const { ALERT_TIME_MS } = useSettings()
+  const { ALERT_TIME_MS } = useGetSettings()
   const [status, setStatus] = useState<AlertStatus>('success')
   const [message, setMessage] = useState<string | null>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -69,7 +69,7 @@ export const AlertProvider = ({ children }: Props) => {
         }
       }, delayMs)
     },
-    [setStatus, setMessage, setIsVisible]
+    [setStatus, setMessage, setIsVisible, ALERT_TIME_MS]
   )
 
   const showError = useCallback(

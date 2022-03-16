@@ -1,4 +1,4 @@
-import { useSettings } from '@/hooks/useSettings'
+import { useGetSettings } from '@/hooks/useGetSettings'
 import { CompletedRow } from './CompletedRow'
 import { CurrentRow } from './CurrentRow'
 import { EmptyRow } from './EmptyRow'
@@ -16,7 +16,7 @@ export const Grid = ({
   isRevealing,
   currentRowClassName,
 }: Props) => {
-  const { MAX_CHALLENGES } = useSettings()
+  const { MAX_CHALLENGES } = useGetSettings()
   const empties =
     guesses.length < MAX_CHALLENGES - 1
       ? Array.from(Array(MAX_CHALLENGES - 1 - guesses.length))

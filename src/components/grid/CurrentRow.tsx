@@ -1,6 +1,6 @@
 import { Cell } from './Cell'
-import { unicodeSplit } from '@lib/words'
-import { useSettings } from '@/hooks/useSettings'
+import { unicodeSplit } from '@lib/useWordsInfo'
+import { useGetSettings } from '@/hooks/useGetSettings'
 
 type Props = {
   guess: string
@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const CurrentRow = ({ guess, className }: Props) => {
-  const { MAX_WORD_LENGTH } = useSettings()
+  const { MAX_WORD_LENGTH } = useGetSettings()
   const splitGuess = unicodeSplit(guess)
   const emptyCells = Array.from(Array(MAX_WORD_LENGTH - splitGuess.length))
   const classes = `flex justify-center mb-1 ${className}`

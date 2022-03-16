@@ -2,13 +2,11 @@ import Countdown from 'react-countdown'
 import { StatBar } from '../stats/StatBar'
 import { Histogram } from '../stats/Histogram'
 import { GameStats } from '@/hooks/useLocalStorage'
-import { shareStatus } from '@lib/share'
-import { getWordOfDay } from '@lib/words'
+import { useShare } from '@lib/useShare'
+import { useWordsInfo } from '@lib/useWordsInfo'
 import { BaseModal } from './BaseModal'
 import { useTranslation } from 'next-i18next'
-import { useSettings } from '@/hooks/useSettings'
 import { STRINGS_NS } from '@core/i18n/namespaces'
-import { useWordlist } from '@/hooks/useWordList'
 
 type Props = {
   isOpen: boolean
@@ -38,9 +36,8 @@ export const StatsModal = ({
   numberOfGuessesMade,
 }: Props) => {
   const { t } = useTranslation(STRINGS_NS)
-  const { MAX_CHALLENGES } = useSettings()
-  const { WORDS } = useWordlist()
-  const { solution, solutionIndex, tomorrow } = getWordOfDay(WORDS)
+  const { tomorrow } = useWordsInfo()
+  const { shareStatus } = useShare()
   if (gameStats.totalGames <= 0) {
     return (
       <BaseModal
@@ -86,11 +83,7 @@ export const StatsModal = ({
                 isHardMode,
                 isDarkMode,
                 isHighContrastMode,
-                handleShareToClipboard,
-                MAX_CHALLENGES,
-                solutionIndex,
-                solution,
-                t
+                handleShareToClipboard
               )
             }}
           >

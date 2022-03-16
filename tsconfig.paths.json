@@ -8,6 +8,8 @@
       "@context/*": ["context/*"],
       "@styles/*": ["styles/*"],
       "@core/*": ["core/*"],
+      "@public/*": ["../public/*"],
+      "@locales/*": ["../public/locales/*"],
       "@/*": ["*"]
     }
   }
