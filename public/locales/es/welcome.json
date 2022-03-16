@@ -1,0 +1,7 @@
+{
+  "HOW_TO_PLAY_TITLE": "¿Cómo se juega?",
+  "INTRODUCTION": "Adivina la palabra secreta en 6 intentos. Después de cada intento, el color de cada letra cambia para mostrar qué tan cerca estás de acertar la palabra.",
+  "EXAMPLE_1": "La letra W está en la palabra y en la posición correcta.",
+  "EXAMPLE_2": "La letra L está en la palabra pero en la posición incorrecta.",
+  "EXAMPLE_3": "La letra U no está en la palabra."
+}

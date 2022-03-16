@@ -4,5 +4,5 @@ import VALID_GUESSES from '@constants/validGuesses'
 export const useValidGuesses = () => {
   const { i18n } = useTranslation()
   // @ts-ignore
-  return VALID_GUESSES[i18n.language]
+  return { VALID_GUESSES: VALID_GUESSES[i18n.language] }
 }

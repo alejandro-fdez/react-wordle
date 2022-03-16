@@ -22,10 +22,22 @@ export const Keyboard = ({
   guesses,
   isRevealing,
 }: Props) => {
-  const { t } = useTranslation(STRINGS_NS)
+  const { t, i18n } = useTranslation(STRINGS_NS)
   const { WORDS } = useWordlist()
   const { solution } = getWordOfDay(WORDS)
   const charStatuses = getStatuses(guesses, solution)
+
+  const getKeysLine1 = () => {
+    return ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']
+  }
+  const getKeysLine2 = () => {
+    const keysLine2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L']
+    i18n.language === 'es' && keysLine2.push('Ñ')
+    return keysLine2
+  }
+  const getKeysLine3 = () => {
+    return ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+  }
 
   const onClick = (value: string) => {
     if (value === 'ENTER') {
@@ -60,7 +72,7 @@ export const Keyboard = ({
   return (
     <div>
       <div className="flex justify-center mb-1">
-        {['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'].map((key) => (
+        {getKeysLine1().map((key) => (
           <Key
             value={key}
             key={key}
@@ -71,7 +83,7 @@ export const Keyboard = ({
         ))}
       </div>
       <div className="flex justify-center mb-1">
-        {['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'].map((key) => (
+        {getKeysLine2().map((key) => (
           <Key
             value={key}
             key={key}
@@ -85,7 +97,7 @@ export const Keyboard = ({
         <Key width={65.4} value="ENTER" onClick={onClick}>
           {t('ENTER_TEXT')}
         </Key>
-        {['Z', 'X', 'C', 'V', 'B', 'N', 'M'].map((key) => (
+        {getKeysLine3().map((key) => (
           <Key
             value={key}
             key={key}
@@ -95,7 +107,21 @@ export const Keyboard = ({
           />
         ))}
         <Key width={65.4} value="DELETE" onClick={onClick}>
-          {t('DELETE_TEXT')}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+            className="h-7 w-7"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"
+            ></path>
+          </svg>
         </Key>
       </div>
     </div>

@@ -1,0 +1,7 @@
+{
+  "HOW_TO_PLAY_TITLE": "How to play?",
+  "INTRODUCTION": "Guess the word in 6 tries. After each guess, the color of the tiles will change to show how close your guess was to the word.",
+  "EXAMPLE_1": "The letter W is in the word and in the correct spot.",
+  "EXAMPLE_2": "The letter L is in the word but in the wrong spot.",
+  "EXAMPLE_3": "The letter U is not in the word in any spot."
+}
